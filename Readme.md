@@ -1,4 +1,4 @@
-# TP02 — Taller de Programación con Unitree G1
+# TP02 — Taller de Programación con Unitree G1 
 
 En esta práctica vamos a desarrollar y probar un controlador para el robot humanoide **Unitree G1**.
 
