@@ -39,8 +39,19 @@ def comando_es_valido(comando):
       - que velocidad y tiempo sean numeros de verdad, no textos
       - que el tiempo no sea negativo
     """
-    # TU CODIGO ACA
-    pass
+    if not isinstance(comando, tuple) or len(comando) == 0:
+        return False
+
+    nombre = comando[0]
+    if nombre in ("avanzar", "girar"):
+        # bool es subclase de int en Python: True/False no son numeros validos
+        return (len(comando) == 3
+                and isinstance(comando[1], (int, float)) and not isinstance(comando[1], bool)
+                and isinstance(comando[2], (int, float)) and not isinstance(comando[2], bool)
+                and comando[2] >= 0)
+    if nombre in ("detenerse", "saludar"):
+        return len(comando) == 1
+    return False
 
 
 # =====================================================================
@@ -60,8 +71,16 @@ def ejecutar_comando(robot, comando):
     igual (por ejemplo, si la velocidad supera el limite de la materia).
     Eso llega como un ErrorDeSeguridad y conviene atraparlo.
     """
-    # TU CODIGO ACA
-    pass
+    nombre = comando[0]
+    if nombre == "avanzar":
+        robot.avanzar(velocidad=comando[1], tiempo=comando[2])
+    elif nombre == "girar":
+        robot.girar(velocidad=comando[1], tiempo=comando[2])
+    elif nombre == "detenerse":
+        robot.detenerse()
+    else:
+        robot.saludar()
+    return f"{nombre} ejecutado"
 
 
 # =====================================================================
@@ -77,8 +96,15 @@ def ejecutar_mision(robot, mision, historial):
 
     Un comando invalido NO tiene que cortar la mision.
     """
-    # TU CODIGO ACA
-    pass
+    for comando in mision:
+        if not comando_es_valido(comando):
+            historial.append((comando, "comando invalido"))
+            continue
+        try:
+            ejecutar_comando(robot, comando)
+            historial.append((comando, "ok"))
+        except ErrorDeSeguridad as e:
+            historial.append((comando, str(e)))
 
 
 # =====================================================================
@@ -92,8 +118,16 @@ def generar_reporte(historial):
       - cuantos se rechazaron
       - cual fue el motivo de cada rechazo
     """
-    # TU CODIGO ACA
-    pass
+    bien = 0
+    mal = 0
+    for comando, resultado in historial:
+        if resultado == "ok":
+            bien = bien + 1
+        else:
+            mal = mal + 1
+            print("Rechazado", comando, ":", resultado)
+    print("Ejecutados bien:", bien)
+    print("Rechazados:", mal)
 
 
 # =====================================================================
