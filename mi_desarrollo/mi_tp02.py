@@ -9,8 +9,8 @@
 #    2. Espera a que aparezca la ventana con el robot
 #    3. Recien ahi ejecuta este archivo
 #
-#  Nombre y apellido:  .....................................
-#  Comision:           .....................................
+#  Nombre y apellido:  Daniel Aldave
+#  Comision:           583212
 # =====================================================================
 
 from robot import ErrorDeSeguridad, Robot
